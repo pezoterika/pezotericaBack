@@ -4,6 +4,7 @@ import * as AuthConfig from 'src/config/auth.config';
 import { RefreshTokenService } from '../services/refreshToken.service';
 import { IPayload } from "src/types/payload.interface";
 import { UserService } from "src/services/user.Service";
+import { Role, User } from '@prisma/client';
 
 export const verifyUserToken = async (req: Request, res:Response, next: NextFunction) => {
 
@@ -48,6 +49,29 @@ export const verifyUserRefreshToken = async (req: Request, res:Response, next: N
     if(refToken.expiredAt.getTime() < new Date().getTime())
         return res.status(401).send({ message: "Ошибка! У токена для обновления истек срок годности" })
     
+    next();
+}
+
+export const isAdmin = async (req: Request, res: Response, next: NextFunction) =>  {
+    let token = req.headers.authorization;
+    token = token.split(' ')[1] // Remove Bearer from string 
+    let { role } = <IPayload>jwt.decode(token);
+
+    if( role != Role.ADMIN)
+        return res.status(403).send({ message: "Ошибка! У вас недостаточно прав" })
+
+    next();
+}
+
+
+export const isUser = async (req: Request, res: Response, next: NextFunction) =>  {
+    let token = req.headers.authorization;
+    token = token.split(' ')[1] // Remove Bearer from string 
+    let { role } = <IPayload>jwt.decode(token);
+
+    if( role != Role.USER)
+        return res.status(403).send({ message: "Ошибка! У вас недостаточно прав" })
+
     next();
 }
 
