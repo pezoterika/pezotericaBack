@@ -35,6 +35,12 @@ model RefreshToken {
   expiredAt     DateTime       
 }
 
+// Совет дня
+model AdviceDay {
+  id      Int      @id @unique
+  advice  String? 
+}
+
 // Роли
 enum Role {
   USER

@@ -19,8 +19,8 @@ export class AuthController{
             return res.status(409).json({ message: "Пользователь уже существует" });
         }
         req.body.password = bcrypt.hashSync(req.body.password, 8);
-    
         const user = await this.userService.create(req.body);
+
         if(user) {
             let payload = { email: user.email, role: user.role };
             const token = jwt.sign(payload, AuthConfig.SECRET_KEY, { expiresIn: AuthConfig.JWT_EXPIRATION })
