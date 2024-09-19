@@ -4,10 +4,12 @@ import { isUser, verifyUserRefreshToken, verifyUserToken } from 'src/middleware/
 import { userCreateFieldValidator, userLoginFieldValidator } from 'src/middleware/userValidator.Middleware';
 import { isAdmin } from '../middleware/auth.middleware';
 import { AdviceDayController } from '../controllers/adviceDay.controller';
+import { TaskPeriodController } from '../controllers/taskPeriod.controller';
 
 const router = Router();
 const authController = new AuthController();
 const adviceDayController = new AdviceDayController();
+const taskPeriodController = new TaskPeriodController(); 
 
 router.get('/', async (req, res) => { res.send({ message: 'Hello! Is this API server' })});
 
@@ -26,8 +28,11 @@ router.get('/testContentAdmin', verifyUserToken, isAdmin, async (req, res) => { 
 
 /* Заполнение БД */
 
-// Совет дня 
+// Совет дня (добавление)
 router.post('/adviceDay', adviceDayController.add);
+
+// Задача периода (добавление)
+router.post('/taskPeriod', taskPeriodController.add);
 
 
 export const apiRouter = router;

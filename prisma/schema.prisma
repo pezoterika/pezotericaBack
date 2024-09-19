@@ -25,7 +25,6 @@ model User {
     refreshToken    RefreshToken?
 }
 
-
 // Токин для обновления
 model RefreshToken {
   id            Int       @id @default(autoincrement())
@@ -41,8 +40,30 @@ model AdviceDay {
   advice  String? 
 }
 
+// Задача периода
+model TaskPeriod {
+  id                        Int  @id @default(autoincrement())
+  period                    Int                                   
+  currentAge                CurrentAge                                
+  soulNumber                Int[]  // Число души [1-9]
+  destinyNumber             Int[]  // число судьбы   [1-9]
+  quantity1InCharacterField Int[]  // от 0 до бесконечности, -1 = не учитывается
+  taskPeriod                Int    // 1-9
+  task                      String  
+}
+
+// Текущий возраст
+enum CurrentAge {
+  LESS_OR_EQUAL_END_PERIOD   // меньше или равно окончанию периода
+  MORE_END_PERIOD            // больше окончания периода
+  FOR_ALL_AGE                // для всех возрастов
+}
+
 // Роли
 enum Role {
   USER
   ADMIN
 }
+
+
+

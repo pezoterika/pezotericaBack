@@ -44,7 +44,4 @@ export class UserService {
         const user =  await this.findByEmail(_user.email);
         return user ? true : false;
     }
-
-
-
 }

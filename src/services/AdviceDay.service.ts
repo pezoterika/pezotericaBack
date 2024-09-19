@@ -9,5 +9,14 @@ export class AdviceDayService {
             data: _adviceDay
         })
     }
+
+    
+    async findById(_id: number) : Promise<AdviceDay> {
+        return this.prisma.adviceDay.findUnique({
+            where: {
+                id: _id
+            }
+        })
+    }
     
 }
