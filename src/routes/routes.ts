@@ -28,8 +28,10 @@ router.get('/testContentAdmin', verifyUserToken, isAdmin, async (req, res) => { 
 
 /* Заполнение БД */
 
-// Совет дня (добавление)
-router.post('/adviceDay', adviceDayController.add);
+// Совет дня 
+router.post('/adviceDay', adviceDayController.add);           
+router.get('/adviceDay/:id', adviceDayController.getAdvice);  
+
 
 // Задача периода (добавление)
 router.post('/taskPeriod', taskPeriodController.add);
