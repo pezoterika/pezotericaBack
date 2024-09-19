@@ -16,10 +16,10 @@ export class TaskPeriodController {
             return res.status(400).json({ message: "Ошибка! Вы передали пустой массив"})
 
         tasks.forEach(async (task) => {
-            await this.taskPeriodService.create(task) 
+            await this.taskPeriodService.create(task)  
         })
 
-        return res.status(200).json({ message: `Успех! В БД добавлено советов дня: ${tasks.length}`})
+        return res.status(200).json({ message: `Успех! В БД добавлено задач периода: ${tasks.length}`})
     }
 
 }
