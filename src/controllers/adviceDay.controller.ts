@@ -44,15 +44,15 @@ export class AdviceDayController {
         let [ year, month, day ] = String(req.query.date)
                         .split('T')[0]
                         .split('-')
-                        .map(s => parseInt(s));
-        let dateCalc = new Date(year, month, day);
+                        .map(s => Number(s));
 
+        let dateCalc = new Date(year, month-1, day+1);
         if(!dateCalc)
             res.status(404).json({ message: "Ошибка! Некоректно передана параметр date в строке запроса" })
         
         let adviceId = this.adviceDayCalc.calcNumberByDate(dateCalc);
         const advice = await this.adviceDayService.findById(adviceId);
-        
+         
         if(!advice)
             return res.status(404).json({ message: "Ошибка! Не найдено" });
 
