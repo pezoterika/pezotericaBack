@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
 import { AdviceDayService } from '../services/AdviceDay.service';
 import { AdviceDay } from "@prisma/client";
-import { number } from "zod";
+import { date, number } from "zod";
+import { AdviceDayCalc } from '../calculation/adviceDay.calculation';
 
 
 export class AdviceDayController {
      
     adviceDayService  = new AdviceDayService();
-
+    adviceDayCalc = new AdviceDayCalc();
 
     // добавление новых советов
     add = async (req: Request, res: Response) => { 
@@ -23,8 +24,8 @@ export class AdviceDayController {
         return res.status(200).json({ message: `Успех! В БД добавлено советов дня: ${advices.length}`})
     }
 
-     // Получение совета для расчитанного числа
-    getAdvice = async (req: Request, res: Response) => { 
+    // Получение совета для расчитанного числа
+    getAdviceById = async (req: Request, res: Response) => { 
 
         let id: number = parseInt(req.params.id);
         if(!id || id <= 0)
@@ -36,4 +37,26 @@ export class AdviceDayController {
 
         return res.status(200).json(advice)
     }
+    
+    // Получение совета по дате
+    getAdviceByDate = async (req: Request, res: Response) => { 
+    
+        let [ year, month, day ] = String(req.query.date)
+                        .split('T')[0]
+                        .split('-')
+                        .map(s => parseInt(s));
+        let dateCalc = new Date(year, month, day);
+
+        if(!dateCalc)
+            res.status(404).json({ message: "Ошибка! Некоректно передана параметр date в строке запроса" })
+        
+        let adviceId = this.adviceDayCalc.calcNumberByDate(dateCalc);
+        const advice = await this.adviceDayService.findById(adviceId);
+        
+        if(!advice)
+            return res.status(404).json({ message: "Ошибка! Не найдено" });
+
+        return res.status(200).json({ advice: advice.advice});  
+    }
+    
 }
