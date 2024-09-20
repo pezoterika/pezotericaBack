@@ -59,6 +59,14 @@ enum CurrentAge {
   FOR_ALL_AGE                // для всех возрастов
 }
 
+// Урок периода
+model LessonPeriod {
+    id            Int    @id @default(autoincrement())
+    period        Int[]
+    lessonPeriod  Int 
+    lesson        String
+}
+
 // Роли
 enum Role {
   USER

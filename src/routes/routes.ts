@@ -5,11 +5,13 @@ import { userCreateFieldValidator, userLoginFieldValidator } from 'src/middlewar
 import { isAdmin } from '../middleware/auth.middleware';
 import { AdviceDayController } from '../controllers/adviceDay.controller';
 import { TaskPeriodController } from '../controllers/taskPeriod.controller';
+import { LessonPeriodController } from '../controllers/lessonPeriod.controller';
 
 const router = Router();
 const authController = new AuthController();
 const adviceDayController = new AdviceDayController();
 const taskPeriodController = new TaskPeriodController(); 
+const lessonPeriodController = new LessonPeriodController()
 
 router.get('/', async (req, res) => { res.send({ message: 'Hello! Is this API server' })});
 
@@ -36,5 +38,8 @@ router.get('/adviceDay', adviceDayController.getAdviceByDate);
 // Задача периода (добавление)
 router.post('/taskPeriod', taskPeriodController.add);
 
+// Урок периода
+router.post('/lessonPeriod', lessonPeriodController.add)
+ 
 
 export const apiRouter = router;
