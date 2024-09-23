@@ -2,11 +2,14 @@ import express from 'express'
 import dotenv from 'dotenv'; 
 import { PrismaClient } from '@prisma/client';
 import { apiRouter } from './routes/routes';
+import cors from 'cors';
 
 dotenv.config();
 const prisma = new PrismaClient()
 const app = express();
 app.use(express.json());
+
+app.use(cors())
 
 
 async function main() {
@@ -19,7 +22,7 @@ async function main() {
   })
 
   app.listen(process.env.PORT || 4200, () => {
-    console.log(`Running on port ${4200}`)
+    console.log(`Running on port ${process.env.PORT}`)
   });
 }
 

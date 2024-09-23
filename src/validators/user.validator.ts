@@ -11,5 +11,5 @@ export const userCreateValidator = z.object({
 
 export const userLoginValidator = z.object({
     email:     z.string().email("Некорректно задана электронная почта"), 
-    password:  z.string().min(6, "Пароль должен быть больше 6 символов"),    
+    password:  z.string().min(6, "Пароль должен быть больше 6 символов"),     
 }).strict();  

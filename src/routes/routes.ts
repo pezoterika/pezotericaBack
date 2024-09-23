@@ -19,7 +19,7 @@ router.post('/register', userCreateFieldValidator,  authController.register);
 
 router.post('/refreshToken', verifyUserRefreshToken, authController.refreshToken );
 
-router.post('/login', userLoginFieldValidator,  authController.login);
+router.post('/login', userLoginFieldValidator,  authController.login); 
 
 router.post('/logout', verifyUserToken,  authController.logout);
 
