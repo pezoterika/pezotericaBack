@@ -11,6 +11,22 @@ export class AuthController{
 
     userService = new UserService();
     refreshTokenService = new RefreshTokenService(); 
+
+
+    // Проверка существует ли пользователь
+    userIsExist = async (req: Request, res: Response) => { 
+
+        let email = <string>req.query.email;
+        if(!email)
+           return res.status(400).json({ message: "Ошибка! Не указан параметр строки запроса." })
+
+        const user = await this.userService.findByEmail(email);
+
+        if(user)
+            return res.status(200).json(true)
+        else  return res.status(404).json(false) 
+    }
+ 
    
     // регистрация
     register = async (req: Request, res: Response) => { 

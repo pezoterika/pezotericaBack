@@ -17,6 +17,8 @@ router.get('/', async (req, res) => { res.send({ message: 'Hello! Is this API se
 
 router.post('/register', userCreateFieldValidator,  authController.register);
 
+router.get('/user/isexist', authController.userIsExist)
+
 router.post('/refreshToken', verifyUserRefreshToken, authController.refreshToken );
 
 router.post('/login', userLoginFieldValidator,  authController.login); 
@@ -26,6 +28,11 @@ router.post('/logout', verifyUserToken,  authController.logout);
 router.get('/testContent', verifyUserToken, async (req, res) => { res.send({ message: 'Test content for User' })});
 
 router.get('/testContentAdmin', verifyUserToken, isAdmin, async (req, res) => { res.send({ message: 'Test content for Admin' })});
+
+
+
+
+
 
 
 /* Заполнение БД */
