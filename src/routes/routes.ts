@@ -6,33 +6,35 @@ import { isAdmin } from '../middleware/auth.middleware';
 import { AdviceDayController } from '../controllers/adviceDay.controller';
 import { TaskPeriodController } from '../controllers/taskPeriod.controller';
 import { LessonPeriodController } from '../controllers/lessonPeriod.controller';
+import { UserController } from 'src/controllers/user.controller';
+
 
 const router = Router();
 const authController = new AuthController();
 const adviceDayController = new AdviceDayController();
 const taskPeriodController = new TaskPeriodController(); 
 const lessonPeriodController = new LessonPeriodController()
+const userController = new UserController();
 
 router.get('/', async (req, res) => { res.send({ message: 'Hello! Is this API server' })});
 
-router.post('/register', userCreateFieldValidator,  authController.register);
 
-router.get('/user/isexist', authController.userIsExist)
+router.post('/register', userCreateFieldValidator,  authController.register);       
 
-router.post('/refreshToken', verifyUserRefreshToken, authController.refreshToken );
+router.get('/user/isexist', authController.userIsExist) 
 
-router.post('/login', userLoginFieldValidator,  authController.login); 
+router.get('/user/my', verifyUserToken, userController.myProfile)
 
-router.post('/logout', verifyUserToken,  authController.logout);
+router.post('/refreshToken', verifyUserRefreshToken, authController.refreshToken )  
 
+router.post('/login', userLoginFieldValidator,  authController.login);              
+
+router.post('/logout', verifyUserToken,  authController.logout);                     
+
+
+// тестирование скрытие запросов
 router.get('/testContent', verifyUserToken, async (req, res) => { res.send({ message: 'Test content for User' })});
-
 router.get('/testContentAdmin', verifyUserToken, isAdmin, async (req, res) => { res.send({ message: 'Test content for Admin' })});
-
-
-
-
-
 
 
 /* Заполнение БД */

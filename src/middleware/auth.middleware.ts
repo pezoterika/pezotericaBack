@@ -31,7 +31,7 @@ export const verifyUserToken = async (req: Request, res:Response, next: NextFunc
 
     
     if(errorMessage) 
-        return res.status(401).json({ message: errorMessage})
+        return res.status(403).json({ message: errorMessage})
 
     next();
 }
