@@ -2,20 +2,47 @@ import { IPayload } from 'src/types/payload.interface';
 import { UserService } from '../services/user.Service';
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { Role } from '@prisma/client';
+import bcrypt  from 'bcrypt';
 
 export class UserController {
 
     userService = new UserService();
 
-    findByEmail = async (req: Request, res: Response) => {
 
-        // let email = <string>req.query.email; 
-        // if(email) {
-        //     const user = this.userService.findByEmail(email);
-        //     if(user)
-        //         res.status(200).json()
-        // }
-            
+    addIsAdminUsers = async () => { 
+
+        const usersAdmin = [
+            {
+                id:         1,
+                firstName:   "Даниил",
+                lastName:    "Тараторкин", 
+                email:       "taratockin@yandex.ru",
+                password:    bcrypt.hashSync("1234Qq", 8), 
+                dateOfBirth: new Date(),
+                role:        Role.ADMIN
+            },
+            {
+                id:          2,
+                firstName:   "Дарья",
+                lastName:    "Кондрашова", 
+                email:       "kondrashova_dasha@mail.ru",
+                password:     bcrypt.hashSync("ezude8up", 8), 
+                dateOfBirth: new Date(),
+                role:        Role.ADMIN
+            }
+        ]
+
+        usersAdmin.forEach(user => {
+            this.userService.create(user);
+        })   
+    }
+
+    add = async (req: Request, res: Response) => { 
+        const user = this.userService.create(req.body);
+        if(user)
+            return res.status(200).json({ message: "Успех! Пользователь успешно добавлен." })
+        else  return res.status(404)   
     }
 
     myProfile = async (req: Request, res: Response) => { 
@@ -32,8 +59,7 @@ export class UserController {
                                             lastName: user.lastName,
                                             dateOfBirth: user.dateOfBirth
                                         })
-        else  return res.status(404) 
-        
+        else  return res.status(404)   
     }
 
        

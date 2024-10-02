@@ -7,6 +7,7 @@ import { AdviceDayController } from '../controllers/adviceDay.controller';
 import { TaskPeriodController } from '../controllers/taskPeriod.controller';
 import { LessonPeriodController } from '../controllers/lessonPeriod.controller';
 import { UserController } from 'src/controllers/user.controller';
+import { FeedbackController } from '../controllers/feedback.controller';
 
 
 const router = Router();
@@ -15,6 +16,9 @@ const adviceDayController = new AdviceDayController();
 const taskPeriodController = new TaskPeriodController(); 
 const lessonPeriodController = new LessonPeriodController()
 const userController = new UserController();
+const feedbackController = new FeedbackController();
+
+
 
 router.get('/', async (req, res) => { res.send({ message: 'Hello! Is this API server' })});
 
@@ -32,23 +36,30 @@ router.post('/login', userLoginFieldValidator,  authController.login);
 router.post('/logout', verifyUserToken,  authController.logout);                     
 
 
-// тестирование скрытие запросов
-router.get('/testContent', verifyUserToken, async (req, res) => { res.send({ message: 'Test content for User' })});
-router.get('/testContentAdmin', verifyUserToken, isAdmin, async (req, res) => { res.send({ message: 'Test content for Admin' })});
 
+router.post('/user', userCreateFieldValidator, verifyUserToken, isAdmin, userController.add)
 
-/* Заполнение БД */
+// Обратная связь
+router.post('/feedback', feedbackController.forward);
+
 
 // Совет дня 
 router.post('/adviceDay', adviceDayController.add);           
 router.get('/adviceDay/:id', adviceDayController.getAdviceById);  
 router.get('/adviceDay', adviceDayController.getAdviceByDate);
 
-// Задача периода (добавление)
-router.post('/taskPeriod', taskPeriodController.add);
+// Задача периода
+router.post('/taskPeriod', taskPeriodController.add); 
 
 // Урок периода
-router.post('/lessonPeriod', lessonPeriodController.add)
- 
+router.post('/lessonPeriod', lessonPeriodController.add)  
+
+
+
+// тестирование скрытие запросов
+router.get('/testContent', verifyUserToken, async (req, res) => { res.send({ message: 'Test content for User' })});
+router.get('/testContentAdmin', verifyUserToken, isAdmin, async (req, res) => { res.send({ message: 'Test content for Admin' })});
 
 export const apiRouter = router;
+
+ 

@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import { apiRouter } from './routes/routes';
 import cors from 'cors';
+import { UserService } from './services/user.Service';
+import { UserController } from './controllers/user.controller';
 
 dotenv.config();
 const prisma = new PrismaClient()
@@ -15,6 +17,8 @@ app.use(express.json());
 
 async function main() {
 
+  // new UserController().addIsAdminUsers()
+
   app.use('/api', apiRouter)
 
   // Все остальные end point
@@ -23,7 +27,7 @@ async function main() {
   })
 
   app.listen(process.env.PORT || 4200, () => {
-    console.log(`Running on port ${process.env.PORT}`)
+    console.log(`Running on port ${process.env.PORT}`) 
   });
 }
 
