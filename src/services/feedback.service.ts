@@ -18,14 +18,15 @@ export class FeedBackService {
         let result = await transporter.sendMail({
             from: 'pezoterika@yandex.ru',
             to: 'pezoterika@yandex.ru',
-            subject: `${_letter.title}`,
-            text: `${_letter.question}`,
+            subject: `${_letter.question}`,
+            //text: `${_letter.message}`,
             html:
-                `${_letter.question}`,
+                `<b>Имя отправителя:</b>  ${_letter.name} <br>
+                 <b>email отправителя:</b>  ${_letter.email} <br> 
+                 <b>Сообщение:</b>   <br>
+                <p>${_letter.message}</p>`,
         });
 
         console.log(result); 
-
     } 
-
 }

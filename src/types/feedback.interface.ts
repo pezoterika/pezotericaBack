@@ -1,6 +1,6 @@
 export interface Feedback{
     name: string;
-    title: string;
-    email: string;
     question: string;
+    email: string;
+    message: string;
 }
