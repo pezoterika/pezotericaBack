@@ -1,5 +1,6 @@
 import { Feedback } from "src/types/feedback.interface";
 import nodemailer from 'nodemailer';
+import { User } from "@prisma/client";
 
 export class FeedBackService {
 
@@ -28,5 +29,7 @@ export class FeedBackService {
         });
 
         console.log(result); 
-    } 
+    }
+    
+    
 }

@@ -5,13 +5,14 @@ import jwt from "jsonwebtoken";
 import * as AuthConfig from 'src/config/auth.config';
 import { RefreshTokenService } from '../services/refreshToken.service';
 import { IPayload } from "src/types/payload.interface";
+import { EmailService } from '../services/email.service';
 
 
 export class AuthController{
 
     userService = new UserService();
     refreshTokenService = new RefreshTokenService(); 
-
+    emailService = new EmailService();
 
     // Проверка существует ли пользователь
     userIsExist = async (req: Request, res: Response) => { 
@@ -96,5 +97,23 @@ export class AuthController{
 
         await this.refreshTokenService.deleteByEmail(email); 
         return res.status(200).json({ message: "Выход из учетной записи выполнен успешно" });  
+    }
+
+
+    // забыл пароль
+    forgot = async(req: Request, res: Response) => {
+        
+        let { email } = req.body;
+        if(!email)
+            return res.status(400).json({ message: "Ошибка! Некорректно отправлен запрос" });
+
+        const user = await this.userService.findByEmail(email)
+        if(!user){
+            return res.status(400).json({ message: "Ошибка! Некорректно отправлен запрос" });
+           
+        }
+ 
+        await this.emailService.sendEmailForgot(user);
+        return res.status(200).json({ message: "Успех! ссылка для сброса пароля направлена на почту" });  
     }
 }

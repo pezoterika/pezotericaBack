@@ -33,7 +33,9 @@ router.post('/refreshToken', verifyUserRefreshToken, authController.refreshToken
 
 router.post('/login', userLoginFieldValidator,  authController.login);              
 
-router.post('/logout', verifyUserToken,  authController.logout);                     
+router.post('/logout', verifyUserToken,  authController.logout); 
+
+router.post('/forgot', authController.forgot) 
 
 
 
