@@ -17,7 +17,6 @@ export class EmailService {
     // переслать письмо
     async forwardLetter(_letter: Feedback) {
 
-       
         let result = await this.transporter.sendMail({
             from: 'pezoterika@yandex.ru',
             to: 'pezoterika@yandex.ru',
