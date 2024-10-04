@@ -5,7 +5,7 @@ import { EmailService } from '../services/email.service';
 export class FeedbackController {
 
     
-    emailService = new EmailService();
+    emailService = new EmailService(); 
 
     forward = async(req: Request, res: Response) => { 
 
@@ -13,6 +13,6 @@ export class FeedbackController {
 
         await this.emailService.forwardLetter(feedback);
         console.log(feedback)
-        return res.status(200).json({ message: `Успех! Соощение отрпавлено в службу поддержки`})
+        return res.status(200).json({ message: `Успех! Сообщение отрпавлено в службу поддержки`})
     }
 }

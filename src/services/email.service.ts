@@ -34,7 +34,7 @@ export class EmailService {
 
  
     // забыл пароль 
-    async sendEmailForgot(_user: User) {
+    async sendEmailForgot(_user: User, _tokenForgot: string) {
        
         let result = await this.transporter.sendMail({
             from: 'pezoterika@yandex.ru',
@@ -44,7 +44,7 @@ export class EmailService {
             html:
                 `<p>Здравствуйте, ${_user.firstName}</p>
                 Для сброса пароля перейдите по указанной ссылке: <br>
-                <br>
+                http://localhost:4200/reset?key=${_tokenForgot}<br>
                 Если вы не отправляли запрос на восстановление пароля, то
                 проигнорируйте данное сообщение.`,
         });

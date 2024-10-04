@@ -112,8 +112,15 @@ export class AuthController{
             return res.status(400).json({ message: "Ошибка! Некорректно отправлен запрос" });
            
         }
- 
-        await this.emailService.sendEmailForgot(user);
+
+        if(await this.refreshTokenService.existByEmail(user.email) ){
+            await this.refreshTokenService.deleteByEmail(user.email); 
+        }
+
+        
+        const token = jwt.sign({ email: user.email }, AuthConfig.SECRET_KEY_FORGOT, { expiresIn: AuthConfig.JWT_FORGOT_EXPIRATION })
+
+        await this.emailService.sendEmailForgot(user, token);
         return res.status(200).json({ message: "Успех! ссылка для сброса пароля направлена на почту" });  
     }
 }

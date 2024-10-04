@@ -67,6 +67,7 @@ model LessonPeriod {
     lesson        String
 }
 
+
 // Роли
 enum Role {
   USER
