@@ -27,9 +27,6 @@ async function main() {
     res.status(404).json( { message: 'Not Found'})  
   })
 
-
-  
-
   app.listen(process.env.PORT || 4200, () => {
     console.log(`Running on port ${process.env.PORT}`) 
   });
