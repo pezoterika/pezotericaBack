@@ -5,13 +5,14 @@ import { apiRouter } from './routes/routes';
 import cors from 'cors';
 import { UserService } from './services/user.Service';
 import { UserController } from './controllers/user.controller';
+import { SubscriptionService } from './services/Subscription.service';
 
 dotenv.config();
 const prisma = new PrismaClient()
 const app = express();
 app.use(cors()); 
 app.use(express.json());
-
+const subscriptionService = new SubscriptionService()
 
 
 
@@ -25,6 +26,9 @@ async function main() {
   app.all('*', (req, res) => { 
     res.status(404).json( { message: 'Not Found'})  
   })
+
+
+  
 
   app.listen(process.env.PORT || 4200, () => {
     console.log(`Running on port ${process.env.PORT}`) 
@@ -40,3 +44,6 @@ main()
     await prisma.$disconnect()
     process.exit(1)
   })
+
+
+  subscriptionService.periodicOperation();     

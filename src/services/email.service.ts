@@ -35,10 +35,11 @@ export class EmailService {
  
     // забыл пароль 
     async sendEmailForgot(_user: User, _tokenForgot: string) {
-       
+
         let result = await this.transporter.sendMail({
             from: 'pezoterika@yandex.ru',
-            to: `${_user.email}`,
+            to: `${_user.email}`, 
+            //to: `${_user.email}`,
             subject: `Восстановление пароля Мир-и-я`,
             //text: `${_letter.message}`,
             html:
@@ -49,7 +50,8 @@ export class EmailService {
                 проигнорируйте данное сообщение.`,
         });
 
-        console.log(result); 
+        console.log(result);
+        console.log(_user.email); 
     }
     
     

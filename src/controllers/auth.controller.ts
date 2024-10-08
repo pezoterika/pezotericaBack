@@ -1,7 +1,7 @@
 import { Request, Response, Router } from "express";
 import { UserService } from "src/services/user.Service";
 import bcrypt  from 'bcrypt';
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import * as AuthConfig from 'src/config/auth.config';
 import { RefreshTokenService } from '../services/refreshToken.service';
 import { IPayload } from "src/types/payload.interface";
@@ -108,6 +108,7 @@ export class AuthController{
             return res.status(400).json({ message: "Ошибка! Некорректно отправлен запрос" });
 
         const user = await this.userService.findByEmail(email)
+        console.log(user)
         if(!user){
             return res.status(400).json({ message: "Ошибка! Некорректно отправлен запрос" });
            
@@ -122,5 +123,28 @@ export class AuthController{
 
         await this.emailService.sendEmailForgot(user, token);
         return res.status(200).json({ message: "Успех! ссылка для сброса пароля направлена на почту" });  
+    }
+
+    // индефикация пользователя который забыл пароль
+    checkForgot = async(req: Request, res: Response) => {
+        
+        let errorMessage = '';
+        let { key } = req.query;
+    
+        if(!key || key === null)
+            return res.status(400).json({ message: "Ошибка! Некоррекный запрос" });
+
+        jwt.verify(<string>key, AuthConfig.SECRET_KEY_FORGOT, (err: any, decoded: any) => {
+            if(err instanceof JsonWebTokenError)
+                errorMessage = 'Ошибка! Недействительный токен'
+            
+            if(err instanceof TokenExpiredError) 
+                errorMessage = 'Ошибка! Срок действия ключа для сброса пароля истек'
+        });
+        if(errorMessage) 
+            return res.status(403).json({ message: errorMessage})
+
+
+        return res.status(200).json({ message: "Успех!" });
     }
 }

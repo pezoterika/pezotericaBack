@@ -35,7 +35,8 @@ router.post('/login', userLoginFieldValidator,  authController.login);
 
 router.post('/logout', verifyUserToken,  authController.logout); 
 
-router.post('/forgot', authController.forgot) 
+router.post('/forgot', authController.forgot)
+router.get('/forgot', authController.checkForgot) 
 
 
 
