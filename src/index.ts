@@ -3,18 +3,16 @@ import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import { apiRouter } from './routes/routes';
 import cors from 'cors';
-import { UserService } from './services/user.Service';
-import { UserController } from './controllers/user.controller';
 import { SubscriptionService } from './services/Subscription.service';
+import { LifeStageCalc } from './calculation/lifeStage.calculation';
 
 dotenv.config();
-const prisma = new PrismaClient()
+const prisma = new PrismaClient() 
 const app = express();
 app.use(cors()); 
 app.use(express.json());
 const subscriptionService = new SubscriptionService()
-
-
+const lessonPeriodCalc = new LifeStageCalc()
 
 async function main() {
 
@@ -44,3 +42,5 @@ main()
 
 
   subscriptionService.periodicOperation();     
+  // console.log( lessonPeriodCalc.calcLessonPeriod(new Date(1999, 5, 21))); 
+  

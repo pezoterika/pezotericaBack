@@ -32,6 +32,18 @@ export class UserService {
         })
     }
 
+
+    async updatePassword(_email: string, _password: string) {
+        return this.prisma.user.update({
+            where: {
+                email: _email
+            },
+            data: {
+                password: _password
+            }
+        })
+    }
+
     async findByEmail(_email: string) :Promise<User> {
         return this.prisma.user.findFirst({
             where: {

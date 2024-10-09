@@ -9,4 +9,13 @@ export class LessonPeriodService {
             data: _lessonPeriod
         })
     }
+
+
+    async findByLessonPeriod(_lessonPeriod: number) : Promise<LessonPeriod> {
+        return this.prisma.lessonPeriod.findFirst({
+            where: {
+                lessonPeriod: _lessonPeriod
+            }
+        })
+    }
 }

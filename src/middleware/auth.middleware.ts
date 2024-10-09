@@ -36,6 +36,30 @@ export const verifyUserToken = async (req: Request, res:Response, next: NextFunc
     next();
 }
 
+
+export const verifyResetPassword = async(req: Request, res:Response, next: NextFunction) => {
+    let { tokenForgot, password } = req.body;
+        let errorMessage = ''; 
+
+        if(!password) return res.status(400).send({ message: "Ошибка! Некорректно отправлен запрос" })
+
+        if(!tokenForgot) return res.status(401).send({ message: "Ошибка! Досутуп запрещен / Несанкционный запрос" })
+
+        jwt.verify(tokenForgot, AuthConfig.SECRET_KEY_FORGOT, (err: any, decoded: any) => {
+            if(err instanceof JsonWebTokenError)
+                errorMessage = 'Ошибка! Недействительный токен'
+            
+            if(err instanceof TokenExpiredError) 
+                errorMessage = 'Ошибка! Срок действия токена доступа истек'
+        });
+
+        if(errorMessage) 
+            return res.status(403).json({ message: errorMessage})
+
+        next();
+} 
+
+
 export const verifyUserRefreshToken = async (req: Request, res:Response, next: NextFunction) => {
 
     if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(req.body.refreshToken))

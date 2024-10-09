@@ -1,6 +1,6 @@
 import{ Router } from 'express';
 import { AuthController } from 'src/controllers/auth.controller';
-import { isUser, verifyUserRefreshToken, verifyUserToken } from 'src/middleware/auth.middleware';
+import { isUser, verifyResetPassword, verifyUserRefreshToken, verifyUserToken } from 'src/middleware/auth.middleware';
 import { userCreateFieldValidator, userLoginFieldValidator } from 'src/middleware/userValidator.Middleware';
 import { isAdmin } from '../middleware/auth.middleware';
 import { AdviceDayController } from '../controllers/adviceDay.controller';
@@ -37,6 +37,7 @@ router.post('/logout', verifyUserToken,  authController.logout);
 
 router.post('/forgot', authController.forgot)
 router.get('/forgot', authController.checkForgot) 
+router.post('/reset', verifyResetPassword, authController.reset)
 
 
 
@@ -56,6 +57,10 @@ router.post('/taskPeriod', taskPeriodController.add);
 
 // Урок периода
 router.post('/lessonPeriod', lessonPeriodController.add)  
+router.get('/lessonPeriod', lessonPeriodController.getLessonsByDate)
+
+// Прогноз по жиненным этапам (период + урок)
+router.get('/lifeStage', lessonPeriodController.getLessonsByDate)
 
 
 

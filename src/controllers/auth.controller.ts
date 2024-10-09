@@ -6,6 +6,7 @@ import * as AuthConfig from 'src/config/auth.config';
 import { RefreshTokenService } from '../services/refreshToken.service';
 import { IPayload } from "src/types/payload.interface";
 import { EmailService } from '../services/email.service';
+import { User } from "@prisma/client";
 
 
 export class AuthController{
@@ -51,13 +52,17 @@ export class AuthController{
     login = async(req: Request, res: Response) => {
 
         const user = await this.userService.findByEmail(req.body.email);
+
+        console.log(`${user.password}`)
+        console.log(`${req.body.password}`)
+
         if(user){
             const isValidPass = await bcrypt.compare(req.body.password, user.password);
             if(!isValidPass) 
                 return res.status(401).send({ message: "Incorrect login or password"});
             
             let payload = { email: user.email, role: user.role };
-            const token = jwt.sign(payload, AuthConfig.SECRET_KEY, { expiresIn: AuthConfig.JWT_EXPIRATION });
+            const token = jwt.sign(payload, AuthConfig.SECRET_KEY, { expiresIn: AuthConfig.JWT_EXPIRATION }); 
             
             
             if(await this.refreshTokenService.existByEmail(user.email) ){
@@ -118,11 +123,31 @@ export class AuthController{
             await this.refreshTokenService.deleteByEmail(user.email); 
         }
 
-        
         const token = jwt.sign({ email: user.email }, AuthConfig.SECRET_KEY_FORGOT, { expiresIn: AuthConfig.JWT_FORGOT_EXPIRATION })
 
         await this.emailService.sendEmailForgot(user, token);
         return res.status(200).json({ message: "Успех! ссылка для сброса пароля направлена на почту" });  
+    }
+
+
+    // сброс пароля
+    reset = async(req: Request, res: Response) => {  
+
+        let { tokenForgot, password } = req.body;
+        
+        let { email } = <IPayload>jwt.decode(tokenForgot);
+        let user: User = await this.userService.findByEmail(email);   
+        
+        if(!user)
+            return res.status(404).json({ message: "Ошибка! Пользователь не найден" });
+
+        let payload = { email: user.email, role: user.role };
+        const token = jwt.sign(payload, AuthConfig.SECRET_KEY, { expiresIn: AuthConfig.JWT_EXPIRATION })
+        const refreshToken = await this.refreshTokenService.create(user.id);
+
+        await this.userService.updatePassword(email, bcrypt.hashSync(password, 8));
+
+        return res.status(201).json({ token: token, refreshToken:  refreshToken.refreshToken});
     }
 
     // индефикация пользователя который забыл пароль
