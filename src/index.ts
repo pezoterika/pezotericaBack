@@ -12,7 +12,7 @@ const app = express();
 app.use(cors()); 
 app.use(express.json());
 const subscriptionService = new SubscriptionService()
-const lessonPeriodCalc = new LifeStageCalc()
+const lifeStageCalc = new LifeStageCalc()
 
 async function main() {
 
@@ -43,4 +43,7 @@ main()
 
   subscriptionService.periodicOperation();     
   // console.log( lessonPeriodCalc.calcLessonPeriod(new Date(1999, 5, 21))); 
-  
+  // console.log(lifeStageCalc.destinyNumber(new Date(1999, 5, 21)))
+  // console.log(lifeStageCalc.currentAge(new Date(1999, 5, 21)))
+  // console.log(lifeStageCalc.soulNumber(new Date(1999, 5, 21)))   calcTaskPeriod
+  console.log(lifeStageCalc.durationPeriods(new Date(1999, 5, 21))) 
