@@ -5,20 +5,22 @@ import { apiRouter } from './routes/routes';
 import cors from 'cors';
 import { SubscriptionService } from './services/Subscription.service';
 import { LifeStageCalc } from './calculation/lifeStage.calculation';
+import helmet from 'helmet';
 
 dotenv.config();
 const prisma = new PrismaClient() 
 const app = express();
 app.use(cors()); 
 app.use(express.json());
+app.use(helmet())
 const subscriptionService = new SubscriptionService()
 const lifeStageCalc = new LifeStageCalc()
 
 async function main() {
 
   // new UserController().addIsAdminUsers()
-
   app.use('/api', apiRouter)
+
 
   // Все остальные end point
   app.all('*', (req, res) => { 
