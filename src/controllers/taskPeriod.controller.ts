@@ -71,7 +71,6 @@ export class TaskPeriodController {
                                                                 destinyNumber,
                                                                 quantity1InCharacterField,
                                                                 <number>taskPeriod.summer));
-
         if(taskPeriodFind)
             ({ task: taskPeriodText.summer, strategicGoal: taskPeriodText.summerGoal } = taskPeriodFind);
         
@@ -83,7 +82,6 @@ export class TaskPeriodController {
                                                                 destinyNumber,
                                                                 quantity1InCharacterField,
                                                                 <number>taskPeriod.autumn));
-
         if(taskPeriodFind)
             ({ task: taskPeriodText.autumn, strategicGoal: taskPeriodText.autumnGoal } = taskPeriodFind); 
 
@@ -94,7 +92,6 @@ export class TaskPeriodController {
                                                                 destinyNumber,
                                                                 quantity1InCharacterField,
                                                                 <number>taskPeriod.winter));
-
         if(taskPeriodFind)
             ({ task: taskPeriodText.winter, strategicGoal: taskPeriodText.winterGoal } = taskPeriodFind); 
 
