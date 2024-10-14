@@ -50,4 +50,4 @@ main()
   // console.log(lifeStageCalc.destinyNumber(new Date(1999, 5, 21)))
   // console.log(lifeStageCalc.currentAge(new Date(1999, 5, 21)))
   // console.log(lifeStageCalc.soulNumber(new Date(1999, 5, 21)))   calcTaskPeriod
-  console.log(lifeStageCalc.durationPeriods(new Date(1999, 5, 21))) 
+  // console.log(lifeStageCalc.durationPeriods(new Date(1999, 5, 21))) 

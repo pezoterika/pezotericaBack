@@ -1,4 +1,4 @@
-import { CurrentAge, PrismaClient, TaskPeriod } from "@prisma/client";
+import { PrismaClient, TaskPeriod } from "@prisma/client";
 
 export class TaskPeriodService {
 
@@ -11,7 +11,7 @@ export class TaskPeriodService {
     }
 
     async findTask(_period:                     number, 
-                   _currentAge:                 CurrentAge, 
+                   _currentAge:                 string, 
                    _soulNumber:                 number, 
                    _destinyNumber:              number,
                    _quantity1InCharacterField:  number,
@@ -20,7 +20,7 @@ export class TaskPeriodService {
         return this.prisma.taskPeriod.findFirst({
             where: {
                 period:                     _period,
-                currentAge:                 _currentAge,
+                currentAge:                 { has: _currentAge },
                 soulNumber:                 { has: _soulNumber },
                 destinyNumber:              { has: _destinyNumber },
                 quantity1InCharacterField:  { has: _quantity1InCharacterField },

@@ -46,12 +46,13 @@ model AdviceDay {
 model TaskPeriod {
   id                        Int  @id @default(autoincrement())
   period                    Int                                   
-  currentAge                CurrentAge                                
+  currentAge                String[]                                
   soulNumber                Int[]  // Число души [1-9]
   destinyNumber             Int[]  // число судьбы   [1-9]
   quantity1InCharacterField Int[]  // от 0 до бесконечности, -1 = не учитывается
   taskPeriod                Int    // 1-9
-  task                      String  
+  task                      String
+  strategicGoal             String 
 }
 
 // Текущий возраст

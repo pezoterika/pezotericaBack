@@ -19,7 +19,7 @@ export class LessonPeriodController {
             await this.lessonPeriodService.create(lesson) 
         })
 
-        return res.status(200).json({ message: `Успех! В БД добавлено советов дня: ${lessons.length}`})
+        return res.status(200).json({ message: `Успех! В БД добавлено уроков периодов: ${lessons.length}`})
     }
 
     getLessonsByDate = async (req: Request, res: Response) => { 

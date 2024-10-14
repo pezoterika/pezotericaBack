@@ -1,5 +1,7 @@
+import { CurrentAgeEnum } from "src/types/currentAge.enum";
 import { DurationPeriods, LifeStageSeasons } from "src/types/lifeStageSeasons";
 import { string } from "zod";
+
 
 
 export class LifeStageCalc {
@@ -62,18 +64,18 @@ export class LifeStageCalc {
     }
 
     // Продолжительность периодов
-    durationPeriods(_date: Date) : DurationPeriods {
+    durationPeriods(_date: Date, _destinyNumber: number) : DurationPeriods {
         const res = new DurationPeriods();
-        let destinyNumber = this.destinyNumber(_date);
+        
 
         res.springBegin = 0;
-        res.springEnd   = 36 - destinyNumber;
+        res.springEnd   = 36 - _destinyNumber;
 
         res.summerBegin = res.springEnd + 1;
-        res.summerEnd   = res.springEnd + destinyNumber; 
+        res.summerEnd   = res.springEnd + _destinyNumber; 
 
         res.autumnBegin = res.summerEnd + 1;
-        res.autumnEnd   = res.summerEnd + destinyNumber;
+        res.autumnEnd   = res.summerEnd + _destinyNumber;
 
         res.winterBegin = res.autumnEnd + 1;
         res.winterEnd   = -1;
@@ -130,7 +132,7 @@ export class LifeStageCalc {
     }
 
     // Текущий возраст
-    currentAge(_date: Date) {
+    currentAgeNum(_date: Date) {
         let currentAge = 0;
         let curDate = new Date();
         
@@ -140,6 +142,12 @@ export class LifeStageCalc {
         else currentAge = curDate.getFullYear() - _date.getFullYear() - 1;  
         
         return currentAge;
+    }
+
+    currentAge(_endPeriod: number, _currentAge: number) {
+        return _currentAge <= _endPeriod 
+                ? CurrentAgeEnum.LESS_OR_EQUAL_END_PERIOD 
+                : CurrentAgeEnum.MORE_END_PERIOD
     }
 
     

@@ -18,7 +18,7 @@ export class AdviceDayController {
             return res.status(400).json({ message: "Ошибка! Вы передали пустой массив"})
 
         advices.forEach(async (advice) => {
-            await this.adviceDayService.create(advice); 
+            await this.adviceDayService.create(advice);  
         })
 
         return res.status(200).json({ message: `Успех! В БД добавлено советов дня: ${advices.length}`})
@@ -33,7 +33,7 @@ export class AdviceDayController {
         
         const advice = await this.adviceDayService.findById(id);
         if(!advice) 
-            return res.status(404).json({ message: `Нет записей`})
+            return res.status(404).json({ message: `Нет записей`}) 
 
         return res.status(200).json(advice)
     }

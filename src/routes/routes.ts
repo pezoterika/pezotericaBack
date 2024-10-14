@@ -54,6 +54,7 @@ router.get('/adviceDay', adviceDayController.getAdviceByDate);
 
 // Задача периода
 router.post('/taskPeriod', taskPeriodController.add); 
+router.get('/taskPeriod', taskPeriodController.getTaskPeriodByDate); 
 
 // Урок периода
 router.post('/lessonPeriod', lessonPeriodController.add)  
