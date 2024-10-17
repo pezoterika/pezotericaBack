@@ -7,6 +7,7 @@ import { SubscriptionService } from './services/Subscription.service';
 import { LifeStageCalc } from './calculation/lifeStage.calculation';
 import helmet from 'helmet';
 import compression from 'compression';
+import bodyParser from 'body-parser'
 
 dotenv.config();
 const prisma = new PrismaClient() 
@@ -15,7 +16,8 @@ app.use(cors());
 app.use(express.json());
 app.use(helmet()); 
 app.use(compression()); 
-const subscriptionService = new SubscriptionService()
+
+const subscriptionService = new SubscriptionService() 
 const lifeStageCalc = new LifeStageCalc()
 
 async function main() {

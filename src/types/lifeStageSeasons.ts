@@ -18,7 +18,7 @@ export class DurationPeriods {
     winterEnd:   number;
  
     summerBegin: number;
-    summerEnd:   number; 
+    summerEnd:   number;  
 
     autumnBegin: number;
     autumnEnd:   number;
