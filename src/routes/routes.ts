@@ -40,12 +40,11 @@ router.get('/forgot', authController.checkForgot)
 router.post('/reset', verifyResetPassword, authController.reset)
 
 
-
+// Создание пользователя 
 router.post('/user', userCreateFieldValidator, verifyUserToken, isAdmin, userController.add)
 
 // Обратная связь
 router.post('/feedback', feedbackController.forward);
-
 
 // Совет дня 
 router.post('/adviceDay', adviceDayController.add);           
@@ -59,11 +58,6 @@ router.get('/taskPeriod', taskPeriodController.getTaskPeriodByDate);
 // Урок периода
 router.post('/lessonPeriod', lessonPeriodController.add)  
 router.get('/lessonPeriod', lessonPeriodController.getLessonsByDate)
-
-// Прогноз по жиненным этапам (период + урок)
-router.get('/lifeStage', lessonPeriodController.getLessonsByDate)
-
-
 
 // тестирование скрытие запросов
 router.get('/testContent', verifyUserToken, async (req, res) => { res.send({ message: 'Test content for User' })});
