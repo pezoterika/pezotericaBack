@@ -8,6 +8,7 @@ import { LifeStageCalc } from './calculation/lifeStage.calculation';
 import helmet from 'helmet';
 import compression from 'compression';
 import bodyParser from 'body-parser'
+import fileUpload from 'express-fileupload';
 
 dotenv.config();
 const prisma = new PrismaClient() 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use(helmet()); 
 app.use(compression()); 
+app.use(fileUpload());
 
 const subscriptionService = new SubscriptionService() 
 const lifeStageCalc = new LifeStageCalc()
