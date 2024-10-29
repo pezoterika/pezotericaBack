@@ -19,9 +19,9 @@ export class AdviceDayCalc {
         sumNumDate = sumNumDate > 78 ? 78 - sumNumDate : sumNumDate;
        
         // пункт 3
-        let res = sumNumDate + (curDate.getMonth() + 1) + curDate.getDate(); 
+        let res = sumNumDate + (curDate.getMonth() + 1) + curDate.getDate();  
         res = res > 78 ? 78 - res : res;
         
-        return res; 
+        return Math.abs(res); 
     }
 }

@@ -50,7 +50,7 @@ export class AdviceDayController {
         if(!dateCalc)
             res.status(404).json({ message: "Ошибка! Некоректно передана параметр date в строке запроса" })
         
-        let adviceId = this.adviceDayCalc.calcNumberByDate(dateCalc);
+        let adviceId = this.adviceDayCalc.calcNumberByDate(dateCalc);  
         const advice = await this.adviceDayService.findById(adviceId);
          
         if(!advice)
