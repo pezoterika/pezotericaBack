@@ -9,16 +9,13 @@ export class AdviceDayCalc {
         if (curDate.getMonth() > birthDate.getMonth())
         {
             calcDate = new Date(Date.UTC(curDate.getFullYear(), birthDate.getMonth(), birthDate.getDate()));
-            console.log('if 1');
         }
         else if (curDate.getMonth() < birthDate.getMonth())
         {
             calcDate = new Date(Date.UTC(curDate.getFullYear() - 1, birthDate.getMonth(), birthDate.getDate()));
-            console.log('if 2');
         }
         else if (curDate.getMonth() == birthDate.getMonth())
         {
-            console.log('if 3');
             calcDate = curDate.getDate() >= birthDate.getDate() 
                         ? new Date(Date.UTC(curDate.getFullYear(), birthDate.getMonth(), birthDate.getDate())) 
                         : new Date(Date.UTC(curDate.getFullYear() - 1, birthDate.getMonth(), birthDate.getDate()));
