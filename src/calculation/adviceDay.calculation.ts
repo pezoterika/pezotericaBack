@@ -26,9 +26,7 @@ export class AdviceDayCalc {
         /*let calcDate: Date =  curDate.getDate() >= birthDate.getDate() 
                         ? new Date(curDate.getFullYear(), birthDate.getMonth(), birthDate.getDate()) 
                         : new Date(curDate.getFullYear() - 1, birthDate.getMonth(), birthDate.getDate());*/
-
-        console.log('calcDate');
-        console.log(calcDate);             
+             
         // пункт 1
         // сумма цифр даты
         let sumNumDate = calcDate.getDate()
@@ -37,8 +35,6 @@ export class AdviceDayCalc {
                             .map((n: string) => { return parseInt(n) })
                             .reduce((sum, value) =>  sum + value, 0);
         sumNumDate = sumNumDate > 78 ? 78 - sumNumDate : sumNumDate;
-        console.log('sumNumDate');
-        console.log(sumNumDate);
 
         // пункт 3
         let res = sumNumDate + (curDate.getMonth() + 1) + curDate.getDate();  
