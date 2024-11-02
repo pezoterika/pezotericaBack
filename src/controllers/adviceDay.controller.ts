@@ -40,13 +40,13 @@ export class AdviceDayController {
     
     // Получение совета по дате
     getAdviceByDate = async (req: Request, res: Response) => { 
-    
+        
         let [ year, month, day ] = String(req.query.date)
                         .split('T')[0]
                         .split('-')
                         .map(s => Number(s));
 
-        let dateCalc = new Date(year, month-1, day+1);
+        let dateCalc = new Date(Date.UTC(year, month-1, day));
         if(!dateCalc)
             res.status(404).json({ message: "Ошибка! Некоректно передана параметр date в строке запроса" })
         
