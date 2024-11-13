@@ -9,6 +9,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import bodyParser from 'body-parser'
 import fileUpload from 'express-fileupload';
+import path from "path";
 
 dotenv.config();
 const prisma = new PrismaClient() 
@@ -17,6 +18,7 @@ app.use(cors());
 app.use(express.json());
 app.use(helmet()); 
 app.use(compression()); 
+app.use("/static", express.static(path.join(__dirname, "upload")));
 app.use(fileUpload());
 
 const subscriptionService = new SubscriptionService() 
@@ -55,3 +57,6 @@ main()
   // console.log(lifeStageCalc.currentAge(new Date(1999, 5, 21)))
   // console.log(lifeStageCalc.soulNumber(new Date(1999, 5, 21)))   calcTaskPeriod
   // console.log(lifeStageCalc.durationPeriods(new Date(1999, 5, 21))) 
+
+
+  console.log(__dirname)

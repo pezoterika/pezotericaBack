@@ -8,6 +8,7 @@ import { TaskPeriodController } from '../controllers/taskPeriod.controller';
 import { LessonPeriodController } from '../controllers/lessonPeriod.controller';
 import { UserController } from 'src/controllers/user.controller';
 import { FeedbackController } from '../controllers/feedback.controller';
+import { NewsController } from 'src/controllers/news.controller';
 
 const router = Router();
 const authController = new AuthController();
@@ -16,6 +17,7 @@ const taskPeriodController = new TaskPeriodController();
 const lessonPeriodController = new LessonPeriodController()
 const userController = new UserController();
 const feedbackController = new FeedbackController();
+const newsController = new NewsController(); 
 
 router.get('/', async (req, res) => { res.send({ message: 'Hello! Is this API server' })});
 
@@ -56,9 +58,16 @@ router.get('/taskPeriod', taskPeriodController.getTaskPeriodByDate);
 router.post('/lessonPeriod', lessonPeriodController.add)  
 router.get('/lessonPeriod', lessonPeriodController.getLessonsByDate)
 
+// Новость
+router.post('/news', newsController.add)
+router.get('/newsPage', newsController.getPage)
+
 // тестирование скрытие запросов
 router.get('/testContent', verifyUserToken, async (req, res) => { res.send({ message: 'Test content for User' })});
 router.get('/testContentAdmin', verifyUserToken, isAdmin, async (req, res) => { res.send({ message: 'Test content for Admin' })});
+
+
+
 
 export const apiRouter = router;
 

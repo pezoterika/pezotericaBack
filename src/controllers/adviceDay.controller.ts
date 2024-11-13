@@ -48,7 +48,7 @@ export class AdviceDayController {
 
         let dateCalc = new Date(Date.UTC(year, month-1, day));
         if(!dateCalc)
-            res.status(404).json({ message: "Ошибка! Некоректно передана параметр date в строке запроса" })
+            return res.status(404).json({ message: "Ошибка! Некоректно передана параметр date в строке запроса" })
         
         let adviceId = this.adviceDayCalc.calcNumberByDate(dateCalc);  
         const advice = await this.adviceDayService.findById(adviceId);
