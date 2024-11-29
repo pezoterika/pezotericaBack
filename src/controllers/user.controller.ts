@@ -14,8 +14,6 @@ export class UserController {
     
 
     addIsAdminUsers = async () => { 
-
-       
         const usersAdmin = [
             {
                 id:         1,
@@ -69,13 +67,30 @@ export class UserController {
 
     uploadAvatar = async (req: Request, res: Response) => {
 
-        let image  = req.files.image as fileUpload.UploadedFile;
-        if(!image) 
-            return res.status(400).json({ message: "Ошибка! Не найден файл" })
+        let { email } = res.locals.payload; // получаю email из middleware
+        let image  = req.files.image as fileUpload.UploadedFile; 
+
+        if(!image) return res.status(400).json({ message: "Ошибка! Не найден файл" })
         
-        image.mv(process.env.UPLOAD_AVATAR_FOLDER + '/upload/' + image.name); 
+        image.mv(process.env.UPLOAD_AVATAR_FOLDER + '/upload/' + email); 
         return res.status(200)
     }
 
+
+    updProfileInfo = async (req: Request, res: Response) => {
+
+        let { firstName, lastName, img, dateOfBirth} = req.body; 
+        console.log(req.body);
+
+       
+        let { email } = res.locals.payload; // получаю email из middleware
+
+        if(img) {
+            let image  = req.files.image as fileUpload.UploadedFile;
+            image.mv(process.env.UPLOAD_AVATAR_FOLDER + '/upload/' + email); 
+        }
+        
+        return res.status(200)
+    }
        
 }

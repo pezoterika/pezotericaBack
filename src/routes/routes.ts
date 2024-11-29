@@ -42,7 +42,8 @@ router.post('/reset', verifyResetPassword, authController.reset)
 
 // Создание пользователя 
 router.post('/user', userCreateFieldValidator, verifyUserToken, isAdmin, userController.add)
-router.post('/uploadAvatar', userController.uploadAvatar)
+router.post('/uploadAvatar', verifyUserToken, userController.uploadAvatar)
+router.post('/updProfileInfo', verifyUserToken, userController.updProfileInfo)
 
 // Обратная связь
 router.post('/feedback', feedbackController.forward);

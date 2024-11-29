@@ -33,6 +33,8 @@ export const verifyUserToken = async (req: Request, res:Response, next: NextFunc
     if(errorMessage) 
         return res.status(403).json({ message: errorMessage})
 
+
+    res.locals.payload = payload; // для передачи в следующие middleware
     next();
 }
 

@@ -7,6 +7,7 @@ import { RefreshTokenService } from '../services/refreshToken.service';
 import { IPayload } from "src/types/payload.interface";
 import { EmailService } from '../services/email.service';
 import { User } from "@prisma/client";
+import { Profile } from "src/types/profile.class";
 
 
 export class AuthController{
