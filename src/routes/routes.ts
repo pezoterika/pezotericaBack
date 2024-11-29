@@ -9,6 +9,7 @@ import { LessonPeriodController } from '../controllers/lessonPeriod.controller';
 import { UserController } from 'src/controllers/user.controller';
 import { FeedbackController } from '../controllers/feedback.controller';
 import { NewsController } from 'src/controllers/news.controller';
+import { ForecastDayController } from '../controllers/ForecastDay.controller';
 
 const router = Router();
 const authController = new AuthController();
@@ -18,6 +19,7 @@ const lessonPeriodController = new LessonPeriodController()
 const userController = new UserController();
 const feedbackController = new FeedbackController();
 const newsController = new NewsController(); 
+const forecastDayController = new ForecastDayController();
 
 router.get('/', async (req, res) => { res.send({ message: 'Hello! Is this API server' })});
 
@@ -66,6 +68,8 @@ router.get('/newsPage', newsController.getPage)
 router.get('/testContent', verifyUserToken, async (req, res) => { res.send({ message: 'Test content for User' })});
 router.get('/testContentAdmin', verifyUserToken, isAdmin, async (req, res) => { res.send({ message: 'Test content for Admin' })});
 
+// Прогноз на день
+router.post('/forecastDay', forecastDayController.add);
 
 
 
