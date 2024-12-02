@@ -6,10 +6,13 @@ import jwt from "jsonwebtoken";
 import { Role } from '@prisma/client';
 import bcrypt  from 'bcrypt';
 import fileUpload from 'express-fileupload';
+import fs from 'fs';
+import { string } from 'zod';
 
 export class UserController {
 
     userService = new UserService();
+    filePathAvatar = process.env.UPLOAD_AVATAR_FOLDER + '/upload/';
     //env2 = dotenv.config();
     
 
@@ -22,7 +25,8 @@ export class UserController {
                 email:       "taratockin@yandex.ru",
                 password:    bcrypt.hashSync("1234Qq", 8), 
                 dateOfBirth: new Date(),
-                role:        Role.ADMIN
+                role:        Role.ADMIN, 
+                img:         ''
             },
             {
                 id:          2,
@@ -31,7 +35,8 @@ export class UserController {
                 email:       "kondrashova_dasha@mail.ru",
                 password:     bcrypt.hashSync("ezude8up", 8), 
                 dateOfBirth: new Date(),
-                role:        Role.ADMIN
+                role:        Role.ADMIN,
+                img:         ''
             }
         ]
 
@@ -78,19 +83,39 @@ export class UserController {
 
 
     updProfileInfo = async (req: Request, res: Response) => {
-
-        let { firstName, lastName, img, dateOfBirth} = req.body; 
+        let { firstName, lastName, dateOfBirth} = req.body; 
+        const { email } = res.locals.payload; // получаю email из middleware
         console.log(req.body);
-
-       
-        let { email } = res.locals.payload; // получаю email из middleware
-
-        if(img) {
-            let image  = req.files.image as fileUpload.UploadedFile;
-            image.mv(process.env.UPLOAD_AVATAR_FOLDER + '/upload/' + email); 
+        let image  = req.files?.image as fileUpload.UploadedFile;
+        
+        let nameFile = image 
+                        ? (<string>email).replace('.ru', '') + image.name.substring(image.name.lastIndexOf('.'))
+                        : '';
+  
+        if(image) {
+            if(fs.existsSync(this.filePathAvatar + nameFile)) {
+                    
+                fs.unlink(this.filePathAvatar + nameFile, (err) => {
+                    if (err) {
+                        console.error('Ошибка удаления файла:', err);
+                        return;
+                    }
+                });
+                image.mv(process.env.UPLOAD_AVATAR_FOLDER + '/upload/' + nameFile); 
+            }
+            else image.mv(process.env.UPLOAD_AVATAR_FOLDER + '/upload/' + nameFile);  
         }
         
-        return res.status(200)
+        const updUser = await this.userService.findByEmail(email);
+        if(updUser) {
+             updUser.firstName = firstName;
+             updUser.lastName = lastName;
+             updUser.img = nameFile;
+             await this.userService.update(updUser);
+        }
+
+        return res.status(200); 
     }
-       
+
+
 }

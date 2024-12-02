@@ -23,6 +23,7 @@ model User {
     dateOfBirth     DateTime     @db.Date
     role            Role         @default(USER)
     refreshToken    RefreshToken?
+    img             String?
     //subscription    Subscription?
 
 }
