@@ -81,6 +81,16 @@ model News {
   datePosted      DateTime     @db.Date
 }
 
+// Прогноз на день
+model ForecastDay {
+  id              Int      @id @unique
+  generalMoodDay  String?
+  work            String?
+  finance         String?
+  love            String?
+  health          String?
+}
+
 
 
 
