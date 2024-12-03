@@ -64,7 +64,8 @@ export class UserController {
                                             email: user.email,
                                             firstName: user.firstName,
                                             lastName: user.lastName,
-                                            dateOfBirth: user.dateOfBirth
+                                            dateOfBirth: user.dateOfBirth,
+                                            img: user.img
                                         })
         else  return res.status(404)   
     }
@@ -110,7 +111,10 @@ export class UserController {
         if(updUser) {
              updUser.firstName = firstName;
              updUser.lastName = lastName;
-             updUser.img = nameFile;
+             updUser.img = Buffer.from(fs.readFileSync(process.env.UPLOAD_AVATAR_FOLDER + '/upload/' + nameFile)).toString("base64");
+            //  updUser.img = req.files.image.toString('base64')
+             console.log( updUser.img)
+             updUser.dateOfBirth = dateOfBirth;
              await this.userService.update(updUser);
         }
 
