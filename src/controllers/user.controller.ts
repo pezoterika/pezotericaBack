@@ -86,7 +86,7 @@ export class UserController {
     updProfileInfo = async (req: Request, res: Response) => {
         let { firstName, lastName, dateOfBirth} = req.body; 
         const { email } = res.locals.payload; // получаю email из middleware
-        console.log(req.body);
+        // console.log(req.body);
         let image  = req.files?.image as fileUpload.UploadedFile;
         
         let nameFile = image 
@@ -111,14 +111,13 @@ export class UserController {
         if(updUser) {
              updUser.firstName = firstName;
              updUser.lastName = lastName;
-             updUser.img = Buffer.from(fs.readFileSync(process.env.UPLOAD_AVATAR_FOLDER + '/upload/' + nameFile)).toString("base64");
-            //  updUser.img = req.files.image.toString('base64')
-             console.log( updUser.img)
+             if(image)
+                updUser.img = Buffer.from(fs.readFileSync(process.env.UPLOAD_AVATAR_FOLDER + '/upload/' + nameFile)).toString("base64");
              updUser.dateOfBirth = dateOfBirth;
              await this.userService.update(updUser);
         }
 
-        return res.status(200); 
+        return res.status(200).json({message: "Успех!"}); 
     }
 
 

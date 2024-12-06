@@ -132,11 +132,10 @@ export class AuthController{
 
 
     // сброс пароля
-    reset = async(req: Request, res: Response) => {  
-
+    reset = async(req: Request, res: Response) => {
         let { tokenForgot, password } = req.body;
-        
         let { email } = <IPayload>jwt.decode(tokenForgot);
+        
         let user: User = await this.userService.findByEmail(email);   
         
         if(!user)
@@ -144,6 +143,10 @@ export class AuthController{
 
         let payload = { email: user.email, role: user.role };
         const token = jwt.sign(payload, AuthConfig.SECRET_KEY, { expiresIn: AuthConfig.JWT_EXPIRATION })
+
+        if(await this.refreshTokenService.existByEmail(user.email) ){
+            await this.refreshTokenService.deleteByEmail(user.email); 
+        }
         const refreshToken = await this.refreshTokenService.create(user.id);
 
         await this.userService.updatePassword(email, bcrypt.hashSync(password, 8));

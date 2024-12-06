@@ -45,6 +45,8 @@ export const verifyResetPassword = async(req: Request, res:Response, next: NextF
 
         if(!password) return res.status(400).send({ message: "Ошибка! Некорректно отправлен запрос" })
 
+        console.log(`tokenForgot = ${tokenForgot}`)
+
         if(!tokenForgot) return res.status(401).send({ message: "Ошибка! Досутуп запрещен / Несанкционный запрос" })
 
         jwt.verify(tokenForgot, AuthConfig.SECRET_KEY_FORGOT, (err: any, decoded: any) => {
@@ -56,7 +58,7 @@ export const verifyResetPassword = async(req: Request, res:Response, next: NextF
         });
 
         if(errorMessage) 
-            return res.status(403).json({ message: errorMessage})
+            return res.status(403).json({ message: errorMessage}) 
 
         next();
 } 
