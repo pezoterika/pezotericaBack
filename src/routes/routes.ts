@@ -37,8 +37,8 @@ router.post('/logout', verifyUserToken,  authController.logout);
 
 router.post('/forgot', authController.forgot)
 router.get('/forgot', authController.checkForgot) 
-router.post('/reset', verifyUserToken, authController.reset)
-
+router.post('/reset', verifyResetPassword, authController.reset)
+router.post('/updatePassword', verifyUserToken, authController.updatePassword)
 
 // Создание пользователя 
 router.post('/user', userCreateFieldValidator, verifyUserToken, isAdmin, userController.add)

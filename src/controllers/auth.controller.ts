@@ -154,6 +154,31 @@ export class AuthController{
         return res.status(201).json({ token: token, refreshToken:  refreshToken.refreshToken});
     }
 
+    // изменение пароля для авторизованного пользователя
+    updatePassword = async(req: Request, res: Response) => {
+        let { password } = req.body;
+        const { email } = res.locals.payload; // получаю email из middleware
+        
+        let user: User = await this.userService.findByEmail(email);   
+        
+        if(!user)
+            return res.status(404).json({ message: "Ошибка! Пользователь не найден" });
+
+        let payload = { email: user.email, role: user.role };
+        const token = jwt.sign(payload, AuthConfig.SECRET_KEY, { expiresIn: AuthConfig.JWT_EXPIRATION })
+
+        if(await this.refreshTokenService.existByEmail(user.email) ){
+            await this.refreshTokenService.deleteByEmail(user.email); 
+        }
+        const refreshToken = await this.refreshTokenService.create(user.id);
+
+        await this.userService.updatePassword(email, bcrypt.hashSync(password, 8));
+
+        return res.status(201).json({ token: token, refreshToken:  refreshToken.refreshToken});
+    }
+
+
+
     // индефикация пользователя который забыл пароль
     checkForgot = async(req: Request, res: Response) => {
         
