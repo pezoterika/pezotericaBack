@@ -9,7 +9,6 @@ import { EmailService } from '../services/email.service';
 import { User } from "@prisma/client";
 import { Profile } from "src/types/profile.class";
 
-
 export class AuthController{
 
     userService = new UserService();
