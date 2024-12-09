@@ -77,7 +77,7 @@ model News {
   id              Int          @id @default(autoincrement())
   title           String
   text            String
-  imgPath         String
+  img             String
   datePosted      DateTime     @db.Date
 }
 

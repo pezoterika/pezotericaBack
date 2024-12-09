@@ -17,7 +17,7 @@ export class NewsController {
             await this.newsService.create(news) 
         })
 
-        return res.status(200).json({ message: `Успех! В БД добавлено уроков периодов: ${newsList.length}`}) 
+        return res.status(200).json({ message: `Успех! В БД добавлено новостей: ${newsList.length}`}) 
     }
 
     getPage = async (req: Request, res: Response) => { 
@@ -31,6 +31,6 @@ export class NewsController {
             return res.status(404).json({ message: "Ошибка! Некоректно передана параметры" })
 
         const newsList = await this.newsService.getPage(skip, take); 
-        return res.status(200).json(newsList) 
+        return res.status(200).json(newsList)  
     }
 }
