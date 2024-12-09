@@ -19,4 +19,8 @@ export class NewsServices {
             }
         })
     }
+
+    async count(){
+        return this.prisma.news.count()
+    }
 }

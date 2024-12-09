@@ -33,4 +33,12 @@ export class NewsController {
         const newsList = await this.newsService.getPage(skip, take); 
         return res.status(200).json(newsList)  
     }
+
+
+    count = async (req: Request, res: Response) => { 
+        let count = await this.newsService.count();
+        count = count == null ? 0 : count;
+
+        return res.status(200).json(count)
+    }
 }

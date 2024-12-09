@@ -64,6 +64,7 @@ router.get('/lessonPeriod', lessonPeriodController.getLessonsByDate)
 // Новость
 router.post('/news', newsController.add)
 router.get('/newsPage', newsController.getPage)
+router.get('/newsCount', newsController.count) 
 
 // тестирование скрытие запросов
 router.get('/testContent', verifyUserToken, async (req, res) => { res.send({ message: 'Test content for User' })});
